@@ -92,7 +92,7 @@ while true; do
     4) install_worker_repo ;;
     5) run_models ;;
     6) run_relay ;;
-    0) echo "Bye bosku 👋"; exit 0 ;;
+    0) echo "Jangan lupa join Telegram juga ya"; exit 0 ;;
     *) echo "Opsi nggak valid, coba lagi." ;;
   esac
 done
