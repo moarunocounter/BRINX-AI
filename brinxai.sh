@@ -60,20 +60,47 @@ function install_worker_repo() {
 }
 
 function run_models() {
-  echo "[+] Menjalankan Docker containers untuk model..."
   docker network inspect brinxai-network >/dev/null 2>&1 || docker network create brinxai-network
 
-  docker run -d --name stable-diffusion --network brinxai-network --cpus=6 --memory=8192m \
-    -p 127.0.0.1:5060:5060 -e PORT=5060 admier/brinxai_nodes-stabled:latest
+  while true; do
+    echo -e "\n[+] Pilih model yang ingin dijalankan:"
+    echo "1. Stable Diffusion"
+    echo "2. Upscaler"
+    echo "3. Text UI"
+    echo "4. Rembg"
+    echo "0. Kembali ke menu utama"
+    echo -n "Pilih model: "
+    read model_choice
 
-  docker run -d --name upscaler --network brinxai-network --cpus=2 --memory=8192m \
-    -p 127.0.0.1:3800:3800 admier/brinxai_nodes-upscaler:latest
-
-  docker run -d --name text-ui --network brinxai-network --cpus=4 --memory=8192m \
-    -p 127.0.0.1:5012:5012 admier/brinxai_nodes-text-ui:latest
-
-  docker run -d --name rembg --network brinxai-network --cpus=2 --memory=4096m \
-    -p 127.0.0.1:7000:7000 admier/brinxai_nodes-rembg:latest
+    case $model_choice in
+      1)
+        echo "[+] Menjalankan Stable Diffusion..."
+        docker run -d --name stable-diffusion --network brinxai-network --cpus=6 --memory=8192m \
+          -p 127.0.0.1:5060:5060 -e PORT=5060 admier/brinxai_nodes-stabled:latest
+        ;;
+      2)
+        echo "[+] Menjalankan Upscaler..."
+        docker run -d --name upscaler --network brinxai-network --cpus=2 --memory=8192m \
+          -p 127.0.0.1:3800:3800 admier/brinxai_nodes-upscaler:latest
+        ;;
+      3)
+        echo "[+] Menjalankan Text UI..."
+        docker run -d --name text-ui --network brinxai-network --cpus=4 --memory=8192m \
+          -p 127.0.0.1:5012:5012 admier/brinxai_nodes-text-ui:latest
+        ;;
+      4)
+        echo "[+] Menjalankan Rembg..."
+        docker run -d --name rembg --network brinxai-network --cpus=2 --memory=4096m \
+          -p 127.0.0.1:7000:7000 admier/brinxai_nodes-rembg:latest
+        ;;
+      0)
+        break
+        ;;
+      *)
+        echo "[!] Pilihan tidak valid."
+        ;;
+    esac
+  done
 }
 
 function run_relay() {
