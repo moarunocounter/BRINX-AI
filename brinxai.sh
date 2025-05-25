@@ -54,8 +54,8 @@ function install_worker_repo() {
   echo "[+] Cloning BrinxAI Worker Repo..."
   git clone https://github.com/admier1/BrinxAI-Worker-Nodes || echo "[!] Repo sudah ada, skip clone"
   cd BrinxAI-Worker-Nodes
-  chmod +x install_ubuntu.sh
-  ./install_ubuntu.sh
+  chmod +x install_brinxai_worker_amd64.sh
+  install_brinxai_worker_amd64.sh
   cd ..
 }
 
