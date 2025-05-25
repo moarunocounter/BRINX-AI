@@ -10,7 +10,7 @@ printf '=%.0s' $(seq 1 $HEADER_WIDTH); echo
 printf "%*s%s\n" $PADDING "" "$TITLE"
 printf "%*s%s\n" $PADDING2 "" "Telegram $TELEGRAM"
 printf '=%.0s' $(seq 1 $HEADER_WIDTH); echo
-echo    # <– ini satu baris kosong aja, cukup
+echo
 
 set -e
 
@@ -27,6 +27,11 @@ function print_menu() {
 }
 
 function install_docker() {
+  if command -v docker >/dev/null 2>&1; then
+    echo "[✓] Docker sudah terinstall, skip."
+    return
+  fi
+
   echo "[+] Installing Docker..."
   sudo apt update
   sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
@@ -43,6 +48,10 @@ function enable_docker() {
 }
 
 function setup_firewall() {
+  if ! command -v ufw >/dev/null 2>&1; then
+    echo "[+] Installing UFW..."
+    sudo apt install ufw -y
+  fi
   echo "[+] Setting up UFW..."
   sudo ufw allow OpenSSH
   sudo ufw allow 5011/tcp
@@ -52,10 +61,22 @@ function setup_firewall() {
 
 function install_worker_repo() {
   echo "[+] Cloning BrinxAI Worker Repo..."
-  git clone https://github.com/admier1/BrinxAI-Worker-Nodes || echo "[!] Repo sudah ada, skip clone"
-  cd BrinxAI-Worker-Nodes
+  if [ ! -d "BrinxAI-Worker-Nodes" ]; then
+    git clone https://github.com/admier1/BrinxAI-Worker-Nodes
+  else
+    echo "[!] Folder BrinxAI-Worker-Nodes sudah ada, skip clone"
+  fi
+
+  cd BrinxAI-Worker-Nodes || { echo "[x] Gagal masuk ke direktori repo"; exit 1; }
+
+  if [ ! -f install_brinxai_worker_amd64.sh ]; then
+    echo "[x] Script install_brinxai_worker_amd64.sh tidak ditemukan!"
+    exit 1
+  fi
+
   chmod +x install_brinxai_worker_amd64.sh
-  ./install_brinxai_worker_amd64.sh
+  ./install_brinxai_worker_amd64.sh || { echo "[x] Gagal menjalankan script installer"; exit 1; }
+
   cd ..
 }
 
@@ -119,7 +140,7 @@ while true; do
     4) install_worker_repo ;;
     5) run_models ;;
     6) run_relay ;;
-    0) echo "Jangan lupa join Telegram juga ya"; exit 0 ;;
+    0) echo "Jangan lupa join Telegram juga ya 🫡"; exit 0 ;;
     *) echo "Opsi nggak valid, coba lagi." ;;
   esac
 done
