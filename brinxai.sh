@@ -125,9 +125,17 @@ function run_models() {
 }
 
 function run_relay() {
-  echo "[+] Menjalankan BrinxAI Relay..."
-  sudo docker run -d --name brinxai_relay --cap-add=NET_ADMIN -p 1194:1194/udp \
-    admier/brinxai_nodes-relay:latest
+  echo "[+] Mengunduh dan menjalankan installer BrinxAI Relay..."
+  wget https://raw.githubusercontent.com/admier1/BrinxAI-Relay-Nodes/refs/heads/main/install_brinxai_relay_amd64.sh || {
+    echo "[x] Gagal mengunduh script relay!"
+    return 1
+  }
+
+  chmod +x install_brinxai_relay_amd64.sh
+  ./install_brinxai_relay_amd64.sh || {
+    echo "[x] Gagal menjalankan script relay!"
+    return 1
+  }
 }
 
 while true; do
