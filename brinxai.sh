@@ -48,15 +48,23 @@ function enable_docker() {
 }
 
 function setup_firewall() {
+  echo "[+] Mengecek dan mengatur firewall UFW..."
+
   if ! command -v ufw >/dev/null 2>&1; then
-    echo "[+] Installing UFW..."
-    sudo apt install ufw -y
+    echo "[+] Menginstall UFW..."
+    sudo apt-get install ufw -y
   fi
-  echo "[+] Setting up UFW..."
+
+  echo "[+] Mengatur aturan firewall..."
   sudo ufw allow OpenSSH
   sudo ufw allow 5011/tcp
   sudo ufw allow 1194/udp
+
+  echo "[+] Mengaktifkan UFW..."
   sudo ufw --force enable
+
+  echo "[+] Status firewall saat ini:"
+  sudo ufw status
 }
 
 function install_worker_repo() {
@@ -125,17 +133,22 @@ function run_models() {
 }
 
 function run_relay() {
-  echo "[+] Mengunduh dan menjalankan installer BrinxAI Relay..."
-  wget https://raw.githubusercontent.com/admier1/BrinxAI-Relay-Nodes/refs/heads/main/install_brinxai_relay_amd64.sh || {
-    echo "[x] Gagal mengunduh script relay!"
+  echo "[+] Mengunduh dan menjalankan installer Relay (.deb)..."
+  wget https://raw.githubusercontent.com/admier1/BrinxAI-Relay-Nodes/main/install_brinxai_relay_amd64_deb.sh || {
+    echo "[x] Gagal mengunduh script DEB!"
+    return 1
+  }
+  chmod +x install_brinxai_relay_amd64_deb.sh
+  ./install_brinxai_relay_amd64_deb.sh || {
+    echo "[x] Gagal menjalankan script DEB!"
     return 1
   }
 
-  chmod +x install_brinxai_relay_amd64.sh
-  ./install_brinxai_relay_amd64.sh || {
-    echo "[x] Gagal menjalankan script relay!"
-    return 1
-  }
+  echo "[✓] Mengecek status kontainer relay..."
+  docker ps -a --filter "name=brinxai_relay_amd64"
+
+  echo "[✓] Menampilkan log kontainer relay (jika tidak berjalan)..."
+  docker logs brinxai_relay_amd64 || echo "[i] Kontainer belum aktif atau log tidak tersedia."
 }
 
 while true; do
