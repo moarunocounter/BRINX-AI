@@ -1,43 +1,78 @@
-# BRINX-AI
+# BrinxAI Worker & Relay Node Installer
 
-Automated installer for BrinxAI Worker Nodes.  
-Supports Docker setup, firewall configuration, repository cloning, model deployment, and relay runner in a single script.
-
----
-
-## ⚙️ Fitur Utama
-
-- **Instalasi Otomatis**: Menyiapkan semua komponen BrinxAI Worker Node secara otomatis.
-- **Setup Docker**: Mengonfigurasi Docker untuk menjalankan container BrinxAI.
-- **Firewall Configuration**: Mengatur aturan firewall untuk keamanan.
-- **Cloning Repository**: Mengkloning repository yang diperlukan untuk operasi.
-- **Model Deployment**: Menyebarkan model AI ke worker node.
-- **Relay Runner**: Mengonfigurasi relay runner untuk komunikasi antar node.
+Skrip interaktif ini memudahkan kamu untuk menginstal dan menjalankan node Worker serta Relay untuk proyek **BrinxAI** berbasis Docker.
 
 ---
 
-## 🚀 Cara Penggunaan
+## ⚙️ Fitur
 
-1. Login/Buat akun dengan email yang sama seperti sebelumnya
-   https://brinxai.com/dashboard
+- Instalasi Docker otomatis
+- Konfigurasi firewall & port penting
+- Clone dan instalasi BrinxAI Worker Nodes
+- Jalankan berbagai model AI: Stable Diffusion, Upscaler, Text UI, Rembg
+- Instalasi dan pengecekan Relay Container
 
-2. Masuk ke VPS & Buat screen
-
-   ```bash
-   screen -S brinxai
-   ```
-
-3. Clone Repo & Jalankan sesuai urutan
-
-   ```bash
-   git clone https://github.com/moarunocounter/BRINX-AI.git && cd BRINX-AI && chmod +x brinxai.sh && ./brinxai.sh
-   ```
-   
-4. Cek docker logs
-   
-   ```bash
-   docker logs -f "container id"
-   ```
 ---
-## OFFICIAL GUIDE
-  https://brinxai.gitbook.io/brinxai-depin-ai
+
+## 🚀 Cara Pakai
+
+```bash
+wget https://github.com/moarunocounter/BRINX-AI && chmod +x brinxai.sh && ./brinxai.sh
+```
+
+---
+
+## 🧭 Menu Interaktif
+
+Saat menjalankan skrip, kamu akan melihat menu seperti ini:
+
+```text
+1. Install Docker
+2. Enable Docker Service
+3. Setup Firewall & Allow Ports
+4. Clone BrinxAI Worker Repo & Install
+5. Run Worker Models (Stable Diff, Upscaler, etc)
+6. Run Relay Container
+0. Exit
+```
+
+---
+
+## 🤖 Model AI yang Didukung
+
+| Nama Model         | Port       | CPU | RAM     |
+|--------------------|------------|-----|---------|
+| Stable Diffusion   | `5060`     | 6   | 8 GB    |
+| Upscaler           | `3800`     | 2   | 8 GB    |
+| Text UI            | `5012`     | 4   | 8 GB    |
+| Rembg              | `7000`     | 2   | 4 GB    |
+
+> Semua container berjalan di `localhost` dan jaringan Docker: `brinxai-network`
+
+---
+
+## 🔐 Firewall & Akses
+
+Skrip akan membuka port:
+- `5011/tcp` (untuk layanan UI / akses container)
+- `1194/udp` (jika diperlukan)
+- `OpenSSH` tetap aktif
+
+---
+
+## 🧑‍💻 Developer
+
+- Telegram: [@airdropalc](https://t.me/airdropalc)
+- Script by: **MOARU**
+
+---
+
+## ✅ Catatan Tambahan
+
+- Pastikan OS: **Ubuntu 20.04+**
+- Jalankan sebagai user dengan akses `sudo`
+- Tidak cocok untuk layanan shared hosting
+
+---
+
+Selamat bereksperimen dengan AI lokal 💻✨
