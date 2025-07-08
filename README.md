@@ -17,7 +17,7 @@ Skrip interaktif ini memudahkan kamu untuk menginstal dan menjalankan node Worke
 ## 🚀 Cara Pakai
 
 ```bash
-wget https://github.com/moarunocounter/BRINX-AI && chmod +x brinxai.sh && ./brinxai.sh
+git clone https://github.com/moarunocounter/BRINX-AI && chmod +x brinxai.sh && ./brinxai.sh
 ```
 
 ---
