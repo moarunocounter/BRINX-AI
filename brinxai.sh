@@ -77,7 +77,7 @@ function install_worker_repo() {
 
   cd BrinxAI-Worker-Nodes/refs/heads/main || { echo "[x] Gagal masuk ke direktori repo"; exit 1; }
 
-  if [ ! -f install_brinxai_worker_amd64.sh ]; then
+  if [ ! -f install_brinxai_worker_amd64_deb.sh ]; then
     echo "[x] Script install_brinxai_worker_amd64.sh tidak ditemukan!"
     exit 1
   fi
