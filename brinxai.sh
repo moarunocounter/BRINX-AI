@@ -70,7 +70,7 @@ function setup_firewall() {
 function install_worker_repo() {
   echo "[+] Cloning BrinxAI Worker Repo..."
   if [ ! -d "BrinxAI-Worker-Nodes" ]; then
-    git clone https://github.com/admier1/BrinxAI-Worker-Nodes
+    wget https://raw.githubusercontent.com/admier1/BrinxAI-Worker-Nodes/refs/heads/main/install_brinxai_worker_amd64_deb.sh
   else
     echo "[!] Folder BrinxAI-Worker-Nodes sudah ada, skip clone"
   fi
@@ -82,8 +82,8 @@ function install_worker_repo() {
     exit 1
   fi
 
-  chmod +x install_brinxai_worker_amd64.sh
-  ./install_brinxai_worker_amd64.sh || { echo "[x] Gagal menjalankan script installer"; exit 1; }
+  chmod +x install_brinxai_worker_amd64_deb.sh
+  ./install_brinxai_worker_amd64_deb.sh || { echo "[x] Gagal menjalankan script installer"; exit 1; }
 
   cd ..
 }
