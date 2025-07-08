@@ -1,3 +1,4 @@
+clear
 HEADER_WIDTH=50
 TITLE="AIRDROP LEGION"
 TELEGRAM="@airdropalc"
