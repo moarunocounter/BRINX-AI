@@ -1,5 +1,3 @@
-#!/bin/bash
-clear
 HEADER_WIDTH=50
 TITLE="AIRDROP LEGION"
 TELEGRAM="@airdropalc"
@@ -68,24 +66,18 @@ function setup_firewall() {
 }
 
 function install_worker_repo() {
-  echo "[+] Cloning BrinxAI Worker Repo..."
-  if [ ! -d "BrinxAI-Worker-Nodes" ]; then
-    wget https://raw.githubusercontent.com/admier1/BrinxAI-Worker-Nodes/refs/heads/main/install_brinxai_worker_amd64_deb.sh
-  else
-    echo "[!] Folder BrinxAI-Worker-Nodes sudah ada, skip clone"
-  fi
+  echo "[+] Mengunduh script BrinxAI Worker Installer..."
 
-  cd BrinxAI-Worker-Nodes/refs/heads/main || { echo "[x] Gagal masuk ke direktori repo"; exit 1; }
-
-  if [ ! -f install_brinxai_worker_amd64_deb.sh ]; then
-    echo "[x] Script install_brinxai_worker_amd64.sh tidak ditemukan!"
+  wget https://raw.githubusercontent.com/admier1/BrinxAI-Worker-Nodes/refs/heads/main/install_brinxai_worker_amd64_deb.sh -O install_brinxai_worker_amd64_deb.sh || {
+    echo "[x] Gagal mengunduh script installer!"
     exit 1
-  fi
+  }
 
   chmod +x install_brinxai_worker_amd64_deb.sh
-  ./install_brinxai_worker_amd64_deb.sh || { echo "[x] Gagal menjalankan script installer"; exit 1; }
-
-  cd ..
+  ./install_brinxai_worker_amd64_deb.sh || {
+    echo "[x] Gagal menjalankan script installer!"
+    exit 1
+  }
 }
 
 function run_models() {
