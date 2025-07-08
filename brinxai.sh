@@ -75,7 +75,7 @@ function install_worker_repo() {
     echo "[!] Folder BrinxAI-Worker-Nodes sudah ada, skip clone"
   fi
 
-  cd BrinxAI-Worker-Nodes || { echo "[x] Gagal masuk ke direktori repo"; exit 1; }
+  cd BrinxAI-Worker-Nodes/refs/heads/main || { echo "[x] Gagal masuk ke direktori repo"; exit 1; }
 
   if [ ! -f install_brinxai_worker_amd64.sh ]; then
     echo "[x] Script install_brinxai_worker_amd64.sh tidak ditemukan!"
